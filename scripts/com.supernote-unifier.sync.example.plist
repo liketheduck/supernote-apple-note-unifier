@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.supernote-unifier.sync</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- Path to the Python executable in your virtual environment -->
+        <string>/path/to/supernote-apple-note-unifier/.venv/bin/python</string>
+        <string>-m</string>
+        <string>unifier.cli</string>
+        <string>sync</string>
+        <string>--direction</string>
+        <string>both</string>
+        <string>--backup</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/path/to/supernote-apple-note-unifier</string>
+
+    <key>StartInterval</key>
+    <!-- Run every 15 minutes (900 seconds) -->
+    <integer>900</integer>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/path/to/.local/share/supernote-unifier/logs/sync.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/path/to/.local/share/supernote-unifier/logs/sync-error.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>PYTHONPATH</key>
+        <string>/path/to/supernote-apple-note-unifier/src</string>
+        <!-- Add your database password here if using Personal Cloud sync -->
+        <!-- <key>SUPERNOTE_DB_PASSWORD</key> -->
+        <!-- <string>your-password-here</string> -->
+    </dict>
+
+    <!-- Only run when Supernote volume is mounted -->
+    <key>WatchPaths</key>
+    <array>
+        <string>/Volumes/Storage/Supernote</string>
+    </array>
+
+    <key>ThrottleInterval</key>
+    <!-- Don't run more often than every 60 seconds even if triggered -->
+    <integer>60</integer>
+</dict>
+</plist>

@@ -1,0 +1,93 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Local state
+*.db
+*.sqlite
+*.sqlite3
+state.db
+
+# Logs
+logs/
+*.log
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+
+# Build artifacts
+bin/notes-bridge
+swift-bridge/.build/
+
+# Research samples (may contain personal data)
+research/samples/*.note
+
+# Secrets and credentials
+.env
+.env.local
+.env.*.local
+
+# Database backups (contain personal data)
+*.tsv
+db_backup*.tsv
+
+# Backup files
+*.bak
+*.backup
+
+# Launchd configuration (contains local paths)
+scripts/*.plist
+!scripts/*.example.plist
+
+# Run scripts (may contain credentials)
+run-*.sh
+!run-*.example.sh
+
+# Personal notes and task lists
+*-tasklist.md
+*-notes.md
+
+# State database snapshots
+snapshots/
+
+# Claude Code
+.claude/
+CLAUDE.md
