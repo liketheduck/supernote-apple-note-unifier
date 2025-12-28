@@ -208,8 +208,13 @@ class ReverseSyncEngine:
             )
 
             # Convert Markdown to HTML
+            # Include title as H1 so Apple Notes derives the note name correctly
             title, body_markdown = extract_title_from_markdown(new_content)
-            html_body = markdown_to_apple_html(body_markdown)
+            body_html = markdown_to_apple_html(body_markdown)
+
+            # Apple Notes uses the first line for the note title, so we put H1 first
+            # The H1 becomes the note's name, and the rest becomes the body
+            html_body = f"<h1>{title}</h1>{body_html}" if title else body_html
 
             # Write HTML to temp file
             with tempfile.NamedTemporaryFile(mode='w', suffix='.html', delete=False) as f:
