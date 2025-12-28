@@ -235,6 +235,10 @@ def extract_title_from_markdown(markdown: str) -> tuple[str, str]:
     Returns:
         Tuple of (title, content_without_title)
     """
+    # Strip UTF-8 BOM if present
+    if markdown.startswith('\ufeff'):
+        markdown = markdown[1:]
+
     lines = markdown.split('\n')
 
     for i, line in enumerate(lines):
