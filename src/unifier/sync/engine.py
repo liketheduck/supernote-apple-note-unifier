@@ -161,15 +161,30 @@ class BidirectionalSyncEngine:
 
                     # If Apple changed since last sync AND Supernote changed
                     if current_apple_hash != state.content_hash:
-                        stats.conflicts_detected += 1
-                        stats.conflicts_resolved_apple_wins += 1
-                        logger.info(
-                            f"Conflict detected for {change.path.name}: "
-                            f"Apple wins (default behavior)"
-                        )
-                        # Skip reverse sync - forward sync will push Apple version
-                        stats.reverse_skipped += 1
-                        continue
+                        # Check if this is OUR change from a previous reverse sync
+                        # If last sync was FROM_SUPERNOTE, the Apple change is likely
+                        # from us, not a user edit. Proceed with the new Supernote changes.
+                        if state.last_sync_direction == SyncDirection.FROM_SUPERNOTE:
+                            logger.debug(
+                                f"Apple changed since last sync, but last sync was "
+                                f"reverse (FROM_SUPERNOTE). Proceeding with new changes."
+                            )
+                            # Update stored hash to current before proceeding
+                            self.state_db.update_content_hash_after_reverse_sync(
+                                change.apple_note_id,
+                                current_apple_hash,
+                            )
+                        else:
+                            # Real conflict - Apple was edited by user
+                            stats.conflicts_detected += 1
+                            stats.conflicts_resolved_apple_wins += 1
+                            logger.info(
+                                f"Conflict detected for {change.path.name}: "
+                                f"Apple wins (default behavior)"
+                            )
+                            # Skip reverse sync - forward sync will push Apple version
+                            stats.reverse_skipped += 1
+                            continue
 
                 except Exception as e:
                     logger.warning(f"Could not check for conflict: {e}")

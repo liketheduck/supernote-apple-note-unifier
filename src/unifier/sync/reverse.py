@@ -243,6 +243,24 @@ class ReverseSyncEngine:
                     change.new_modified_at or 0,
                 )
 
+                # Update content_hash to match new Apple Note content
+                # This prevents false conflict detection on next sync
+                # Query the updated note to get accurate hash (name|bodyPlainText)
+                try:
+                    updated_note = self._run_swift_command(
+                        "export-note", change.apple_note_id, "--html"
+                    )
+                    # Hash format must match engine._compute_content_hash
+                    new_apple_content_hash = self._compute_content_hash(
+                        f"{updated_note.get('name', '')}|{updated_note.get('bodyPlainText', '')}"
+                    )
+                    self.state_db.update_content_hash_after_reverse_sync(
+                        change.apple_note_id,
+                        new_apple_content_hash,
+                    )
+                except Exception as e:
+                    logger.warning(f"Could not update content hash after reverse sync: {e}")
+
                 logger.info(f"Synced changes from Supernote to Apple Note: {title}")
 
                 return ReverseSyncResult(
@@ -375,9 +393,28 @@ class ReverseSyncEngine:
                 new_note_id = result.get("id", "")
 
                 if new_note_id:
-                    # Record in state database for future tracking
-                    html_hash = self._compute_content_hash(html_body)
-                    self.state_db.update_apple_written_hash(new_note_id, html_hash)
+                    # Query the newly created note to get accurate state
+                    try:
+                        new_note = self._run_swift_command(
+                            "export-note", new_note_id, "--html"
+                        )
+                        # Compute content hash matching engine._compute_content_hash
+                        apple_content_hash = self._compute_content_hash(
+                            f"{new_note.get('name', '')}|{new_note.get('bodyPlainText', '')}"
+                        )
+
+                        # Record full state for future tracking
+                        self.state_db.record_success(
+                            apple_note_id=new_note_id,
+                            apple_folder_path=apple_folder_path or "",
+                            content_hash=apple_content_hash,
+                            output_path=txt_path,
+                            generator_type="text",
+                            supernote_content_hash=content_hash,
+                            direction=SyncDirection.FROM_SUPERNOTE,
+                        )
+                    except Exception as e:
+                        logger.warning(f"Could not record state for new note: {e}")
 
                     logger.info(f"Created Apple Note '{title}' from Supernote .txt")
 

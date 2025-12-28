@@ -319,6 +319,29 @@ class StateDatabase:
                 apple_note_id,
             ))
 
+    def update_content_hash_after_reverse_sync(
+        self,
+        apple_note_id: str,
+        new_content_hash: str,
+    ):
+        """Update content_hash after reverse sync to prevent false conflicts.
+
+        After reverse sync modifies an Apple Note, we need to update the stored
+        content_hash to match the new Apple Note content. Otherwise, the next
+        sync will see (current_hash != old_stored_hash) and trigger a false conflict.
+        """
+        with self._connect() as conn:
+            conn.execute("""
+                UPDATE note_state
+                SET content_hash = ?,
+                    last_sync_direction = ?
+                WHERE apple_note_id = ?
+            """, (
+                new_content_hash,
+                SyncDirection.FROM_SUPERNOTE.value,
+                apple_note_id,
+            ))
+
     def record_original(
         self,
         apple_note_id: str,

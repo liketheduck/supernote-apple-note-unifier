@@ -147,6 +147,14 @@ def _convert_inline(text: str) -> str:
     # Links: [text](url)
     text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', text)
 
+    # Auto-link plain URLs (not already in href="...")
+    # Match http/https URLs that aren't already inside an href attribute
+    text = re.sub(
+        r'(?<!href=")(?<!href=\')(https?://[^\s<>"\'\)]+)',
+        r'<a href="\1">\1</a>',
+        text
+    )
+
     # Strikethrough: ~~text~~
     text = re.sub(r'~~(.+?)~~', r'<s>\1</s>', text)
 
