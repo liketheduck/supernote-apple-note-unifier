@@ -105,8 +105,13 @@ class BidirectionalSyncEngine:
             return None
 
     def _compute_content_hash(self, note: dict) -> str:
-        """Compute content hash for a note."""
-        content = f"{note.get('name', '')}|{note.get('bodyPlainText', '')}|{note.get('modificationDate', '')}"
+        """Compute content hash for a note.
+
+        Uses only name + content, NOT modificationDate, because:
+        - modificationDate can change without content changes (e.g., opening note)
+        - This would cause false "conflicts" in bidirectional sync
+        """
+        content = f"{note.get('name', '')}|{note.get('bodyPlainText', '')}"
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
     def _should_exclude_folder(self, folder_path: str) -> bool:

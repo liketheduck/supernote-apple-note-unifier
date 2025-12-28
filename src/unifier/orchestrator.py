@@ -172,12 +172,22 @@ class Orchestrator:
             result = generator.generate(content, relative_path)
 
             if result.success:
+                # Compute Supernote content hash for .txt files (for reverse sync detection)
+                supernote_hash = None
+                if result.output_path and str(result.output_path).endswith('.txt'):
+                    try:
+                        txt_content = result.output_path.read_text(encoding='utf-8')
+                        supernote_hash = hashlib.sha256(txt_content.encode()).hexdigest()[:16]
+                    except Exception:
+                        pass  # Non-critical, reverse sync will work without it
+
                 self.state_db.record_success(
                     note["id"],
                     note.get("folderPath", ""),
                     content_hash,
                     result.output_path,
-                    generator.generator_type.value
+                    generator.generator_type.value,
+                    supernote_content_hash=supernote_hash,
                 )
 
                 # Register in Personal Cloud sync database
@@ -244,8 +254,13 @@ class Orchestrator:
         return json.loads(result.stdout)
 
     def _compute_hash(self, note: dict) -> str:
-        """Compute content hash for change detection."""
-        content = f"{note.get('name', '')}|{note.get('bodyPlainText', '')}|{note.get('modificationDate', '')}"
+        """Compute content hash for change detection.
+
+        Uses only name + content, NOT modificationDate, because:
+        - modificationDate can change without content changes (e.g., opening note)
+        - This would cause false "conflicts" in bidirectional sync
+        """
+        content = f"{note.get('name', '')}|{note.get('bodyPlainText', '')}"
         return hashlib.sha256(content.encode()).hexdigest()[:16]
 
     def _make_relative_path(self, note: dict) -> str:

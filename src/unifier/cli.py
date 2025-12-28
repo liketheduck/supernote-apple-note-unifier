@@ -168,15 +168,9 @@ def sync(generator: str, supernote_path: Path, direction: str, backup: bool,
 
             stats = orchestrator.run(dry_run=dry_run, verbose=verbose)
 
-            # Update Supernote hashes after forward sync for future reverse detection
-            if not dry_run:
-                from .sync.engine import BidirectionalSyncEngine
-                engine = BidirectionalSyncEngine(
-                    supernote_base=supernote_path,
-                    state_db_path=DEFAULT_STATE_DB,
-                    swift_bridge_path=DEFAULT_SWIFT_BRIDGE,
-                )
-                engine.update_supernote_hashes()
+            # Note: Supernote hashes are updated in orchestrator.record_success()
+            # when files are actually written, not here - this preserves
+            # detection of user edits on Supernote between syncs.
 
             # Display results
             table = Table(title="Sync Results")
