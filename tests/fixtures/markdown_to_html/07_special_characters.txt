@@ -1,0 +1,47 @@
+# Special Characters & Entities
+
+## HTML Entities
+
+Ampersand: Tom & Jerry
+
+Less than: 5 < 10
+
+Greater than: 10 > 5
+
+Quote marks: "double" and 'single'
+
+## Unicode Characters
+
+Emoji: 🎉 🚀 ✅ ❌ 💡
+
+Accents: café, naïve, résumé, piñata
+
+Currency: $100, €50, £30, ¥1000
+
+Math: π ≈ 3.14, √2 ≈ 1.41, ∞
+
+Arrows: → ← ↑ ↓ ↔
+
+## Escape Characters
+
+Asterisks: \*not italic\*
+
+Underscores: \_not italic\_
+
+Backslash: \\
+
+Backticks: \`not code\`
+
+## Mixed In Sentences
+
+The price is $50 & includes shipping → total < €60.
+
+## In Lists
+
+- Item with emoji 🎯
+- Item with accent: café
+- Item with math: x² + y² = z²
+
+## In Headers
+
+## Section About π & Math

@@ -20,16 +20,18 @@ class HTMLToMarkdownParser(HTMLParser):
 
     def __init__(self, title_to_skip: str | None = None):
         super().__init__()
-        self.output = []
+        self.output: list[str] = []
         self.is_bold = False
         self.is_italic = False
         self.is_code = False
         self.in_pre = False
-        self.list_stack = []  # Track nested lists: 'ul' or 'ol'
-        self.ol_counters = []  # Track ordered list counters
+        self.in_blockquote = False  # Track if we're inside a blockquote
+        self.blockquote_content: list[str] = []  # Accumulate blockquote content
+        self.list_stack: list[str] = []  # Track nested lists: 'ul' or 'ol'
+        self.ol_counters: list[int] = []  # Track ordered list counters
         self.pending_newlines = 0
         self.current_heading = 0
-        self.current_link_href = None  # Track current link URL
+        self.current_link_href: str | None = None  # Track current link URL
 
         # Track title to skip (already added as H1)
         self.title_to_skip = title_to_skip.lower().strip() if title_to_skip else None
@@ -38,7 +40,7 @@ class HTMLToMarkdownParser(HTMLParser):
         # Track consecutive heading fragments for merging
         self.in_consecutive_headings = False
         self.consecutive_heading_level = 0
-        self.consecutive_heading_text = []
+        self.consecutive_heading_text: list[str] = []
 
     def _add_text(self, text: str):
         """Add text with current formatting."""
@@ -148,12 +150,18 @@ class HTMLToMarkdownParser(HTMLParser):
             self._flush_newlines()
             if not self.list_stack:
                 self._add_newlines(2)
+            else:
+                # Nested list - add newline to separate from parent item text
+                self.output.append('\n')
             self.list_stack.append('ul')
         elif tag == 'ol':
             self._flush_consecutive_headings()
             self._flush_newlines()
             if not self.list_stack:
                 self._add_newlines(2)
+            else:
+                # Nested list - add newline to separate from parent item text
+                self.output.append('\n')
             self.list_stack.append('ol')
             self.ol_counters.append(1)
         elif tag == 'li':
@@ -169,18 +177,27 @@ class HTMLToMarkdownParser(HTMLParser):
                 self.output.append(f'{indent}- ')
         elif tag == 'a':
             self._flush_consecutive_headings()
-            self._flush_newlines()  # Flush before the [ to keep link together
             # Start of link - store href and open bracket
             for name, value in attrs:
                 if name == 'href':
                     self.current_link_href = value
-                    self.output.append('[')
+                    if self.in_blockquote:
+                        # Add space before [ if there's preceding content
+                        if self.blockquote_content:
+                            last = self.blockquote_content[-1]
+                            if last and last[-1] not in ' \t\n[(':
+                                self.blockquote_content.append(' ')
+                        self.blockquote_content.append('[')
+                    else:
+                        self._flush_newlines()  # Flush before the [ to keep link together
+                        self.output.append('[')
                     break
         elif tag == 'blockquote':
             self._flush_consecutive_headings()
             self._flush_newlines()
             self._add_newlines(2)
-            self.output.append('> ')
+            self.in_blockquote = True
+            self.blockquote_content = []
 
     def handle_endtag(self, tag):
         tag = tag.lower()
@@ -216,11 +233,23 @@ class HTMLToMarkdownParser(HTMLParser):
         elif tag == 'li':
             self._add_newlines(1)
         elif tag == 'blockquote':
+            # Flush accumulated blockquote content with > prefix
+            if self.blockquote_content:
+                content = ''.join(self.blockquote_content).strip()
+                if content:
+                    self._flush_newlines()
+                    self.output.append('> ' + content)
+            self.in_blockquote = False
+            self.blockquote_content = []
             self._add_newlines(2)
         elif tag == 'a':
             # Close link with URL
             if self.current_link_href:
-                self.output.append(f']({self.current_link_href})')
+                link_close = f']({self.current_link_href})'
+                if self.in_blockquote:
+                    self.blockquote_content.append(link_close)
+                else:
+                    self.output.append(link_close)
                 self.current_link_href = None
 
     def handle_data(self, data):
@@ -232,6 +261,27 @@ class HTMLToMarkdownParser(HTMLParser):
             text = ' '.join(data.split())
             if text:
                 self.consecutive_heading_text.append(text)
+        elif self.in_blockquote:
+            # Accumulate blockquote content
+            text = ' '.join(data.split())
+            if text:
+                # Apply inline formatting for blockquote content
+                if self.is_code:
+                    text = f'`{text}`'
+                if self.is_bold and self.is_italic:
+                    text = f'***{text}***'
+                elif self.is_bold:
+                    text = f'**{text}**'
+                elif self.is_italic:
+                    text = f'*{text}*'
+                # Add space separator if needed, but not after opening bracket
+                # and not before punctuation
+                if self.blockquote_content:
+                    last = self.blockquote_content[-1]
+                    # Don't add space after opening bracket or before punctuation
+                    if last and last[-1] not in '[(' and text[0] not in '.,;:!?)':
+                        self.blockquote_content.append(' ')
+                self.blockquote_content.append(text)
         else:
             # Check if there was leading whitespace in original
             has_leading_space = data and data[0] in ' \t\n'
@@ -242,7 +292,8 @@ class HTMLToMarkdownParser(HTMLParser):
             if text:
                 self._flush_newlines()
                 # Add leading space if needed to separate from previous content
-                if has_leading_space and self.output and self.output[-1] and self.output[-1][-1] not in ' \t\n':
+                last = self.output[-1] if self.output else ''
+                if has_leading_space and last and last[-1] not in ' \t\n':
                     self.output.append(' ')
                 self._add_text(text)
                 # Add trailing space if needed

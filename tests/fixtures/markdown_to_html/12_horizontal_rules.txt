@@ -1,0 +1,62 @@
+# Horizontal Rules
+
+## Dash Style
+
+Content before the rule.
+
+---
+
+Content after the rule.
+
+## Asterisk Style
+
+More content here.
+
+***
+
+And more after.
+
+## Underscore Style
+
+Text above.
+
+___
+
+Text below.
+
+## Multiple Rules
+
+First section.
+
+---
+
+Second section.
+
+---
+
+Third section.
+
+## Rule After List
+
+- Item one
+- Item two
+
+---
+
+Paragraph after rule.
+
+## Rule After Header
+
+## Section Header
+
+---
+
+Content under rule.
+
+## Adjacent Rules
+
+---
+
+---
+
+Two rules in a row.

@@ -1,0 +1,59 @@
+# UTF-8 BOM and Encoding Test
+
+This file tests proper handling of UTF-8 encoding.
+
+## International Text
+
+日本語テキスト (Japanese)
+
+中文文本 (Chinese)
+
+한국어 텍스트 (Korean)
+
+Текст на русском (Russian)
+
+العربية (Arabic)
+
+עברית (Hebrew)
+
+## Mixed Scripts
+
+The word "café" uses Latin Extended.
+
+Japanese: こんにちは means hello.
+
+Greek: Ω is Omega, π is Pi.
+
+## Zero-Width Characters
+
+Test​word (zero-width space between)
+
+## Combining Characters
+
+Café written with combining accent: cafe + ́
+
+Ñ with combining tilde: N + ̃
+
+## Emoji Sequences
+
+Family: 👨‍👩‍👧‍👦
+
+Flag: 🇺🇸
+
+Skin tone: 👍🏽
+
+## Right-to-Left
+
+Hebrew in list:
+
+- עברית
+- English
+- עוד עברית
+
+## Normalization
+
+NFC vs NFD forms of é should work.
+
+## Long Unicode Line
+
+🎉🎊🎈🎁🎂🍰🍾🥂🎆🎇✨🌟⭐💫🌈🦄🐉🐲🎯🎪

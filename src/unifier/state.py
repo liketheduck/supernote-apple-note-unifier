@@ -39,6 +39,7 @@ class NoteState:
     supernote_modified_at: int | None = None   # mtime of .txt (epoch ms)
     last_sync_direction: SyncDirection | None = None
     apple_written_hash: str | None = None  # Hash we wrote TO Apple (loop detection)
+    is_locked: bool = False  # True if note is locked in Apple Notes (no reverse sync)
 
 
 class StateDatabase:
@@ -104,6 +105,10 @@ class StateDatabase:
         """
         ALTER TABLE note_state ADD COLUMN apple_written_hash TEXT;
         """,
+        # Migration 2: Add locked note tracking
+        """
+        ALTER TABLE note_state ADD COLUMN is_locked INTEGER DEFAULT 0;
+        """,
     ]
 
     def __init__(self, db_path: Path):
@@ -157,6 +162,13 @@ class StateDatabase:
                         direction = SyncDirection(row["last_sync_direction"])
                     except ValueError:
                         pass
+                # Handle is_locked column (may not exist in older databases before migration)
+                is_locked = False
+                try:
+                    is_locked = bool(row["is_locked"])
+                except (IndexError, KeyError):
+                    pass
+
                 return NoteState(
                     apple_note_id=row["apple_note_id"],
                     apple_folder_path=row["apple_folder_path"],
@@ -170,6 +182,7 @@ class StateDatabase:
                     supernote_modified_at=row["supernote_modified_at"],
                     last_sync_direction=direction,
                     apple_written_hash=row["apple_written_hash"],
+                    is_locked=is_locked,
                 )
         return None
 
@@ -208,6 +221,7 @@ class StateDatabase:
         generator_type: str,
         supernote_content_hash: str | None = None,
         direction: SyncDirection = SyncDirection.TO_SUPERNOTE,
+        is_locked: bool = False,
     ):
         """Record successful note generation."""
         with self._connect() as conn:
@@ -215,8 +229,8 @@ class StateDatabase:
                 INSERT OR REPLACE INTO note_state
                 (apple_note_id, apple_folder_path, content_hash, last_processed,
                  output_path, generator_type, success, error,
-                 supernote_content_hash, last_sync_direction)
-                VALUES (?, ?, ?, ?, ?, ?, 1, NULL, ?, ?)
+                 supernote_content_hash, last_sync_direction, is_locked)
+                VALUES (?, ?, ?, ?, ?, ?, 1, NULL, ?, ?, ?)
             """, (
                 apple_note_id,
                 apple_folder_path,
@@ -226,6 +240,7 @@ class StateDatabase:
                 generator_type,
                 supernote_content_hash,
                 direction.value,
+                1 if is_locked else 0,
             ))
 
     def record_failure(

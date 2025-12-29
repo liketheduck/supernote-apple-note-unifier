@@ -1,0 +1,37 @@
+# Links and URLs
+
+## Standard Markdown Links
+
+Here's a [simple link](https://example.com) in text.
+
+Multiple links: [Google](https://google.com) and [GitHub](https://github.com).
+
+[Link with spaces in text](https://example.com/path)
+
+[Link with **bold** text](https://example.com)
+
+## Plain URLs (Auto-Link)
+
+Visit https://example.com for more info.
+
+Check out https://github.com/user/repo for the code.
+
+Multiple URLs: https://one.com and https://two.com in same line.
+
+URL at end of sentence: https://example.com.
+
+URL with path: https://example.com/path/to/resource?query=value&other=123
+
+## Edge Cases
+
+Link to file: [local file](file:///path/to/file.txt)
+
+Email style: [email](mailto:user@example.com)
+
+Links with parentheses: [Wikipedia](https://en.wikipedia.org/wiki/Test_(disambiguation))
+
+## Links In Lists
+
+- [First link](https://one.com)
+- [Second link](https://two.com)
+  - [Nested link](https://nested.com)

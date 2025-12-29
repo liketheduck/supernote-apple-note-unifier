@@ -1,0 +1,62 @@
+# Complex Mixed Content
+
+This document combines **multiple** formatting types in *realistic* scenarios.
+
+## Project Overview
+
+The goal is to create a sync tool that handles:
+
+1. **Apple Notes export** via Swift bridge
+2. **Markdown conversion** for Supernote
+3. **Bidirectional sync** with conflict resolution
+
+> Note: This is currently in development. See https://github.com/example/repo for updates.
+
+### Key Features
+
+- Real-time sync with `--watch` flag
+- Support for **nested folders** and *special characters*
+- Automatic conflict resolution (Apple wins)
+
+### Code Example
+
+```python
+def sync_notes(direction: str = "forward"):
+    """
+    Sync notes between Apple Notes and Supernote.
+
+    Args:
+        direction: "forward", "reverse", or "bidirectional"
+    """
+    if direction == "bidirectional":
+        run_reverse_sync()
+        run_forward_sync()
+```
+
+## Technical Details
+
+The architecture uses:
+
+1. **Swift Bridge**
+   - ScriptingBridge API access
+   - JSON export format
+   - Handles all note types
+
+2. **Python Orchestrator**
+   - Click-based CLI
+   - SQLite state tracking
+   - Multiple generators
+
+Visit [our docs](https://example.com/docs) for the full API reference.
+
+### Edge Cases Handled
+
+| Scenario | Status |
+|----------|--------|
+| UTF-8 BOM | ✅ Fixed |
+| Loop detection | ✅ Fixed |
+| Title loss | ✅ Fixed |
+
+## Conclusion
+
+This mixed content tests **bold**, *italic*, `code`, links like https://example.com, and various block elements together.

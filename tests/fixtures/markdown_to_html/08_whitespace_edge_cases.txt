@@ -1,0 +1,57 @@
+# Whitespace Edge Cases
+
+## Multiple Blank Lines
+
+
+
+
+Text after multiple blank lines.
+
+## Trailing Spaces
+
+Line with trailing spaces
+Another line.
+
+## Tab Characters
+
+	Indented with tab.
+		Double tab indent.
+
+## Mixed Indentation
+
+Normal line.
+  Two space indent.
+    Four space indent.
+      Six space indent.
+
+## Paragraph Spacing
+
+First paragraph with content.
+
+Second paragraph with content.
+
+
+
+Third paragraph after extra blank lines.
+
+## List Spacing
+
+- Item one
+
+- Item two with blank before
+
+- Item three
+
+## No Space After Hash
+
+#Not a header (no space)
+
+# Real Header
+
+##Also not a header
+
+## Real H2
+
+## End Of File Handling
+
+Last line without newline

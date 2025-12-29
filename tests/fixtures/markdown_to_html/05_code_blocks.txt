@@ -1,0 +1,63 @@
+# Code Blocks
+
+## Simple Code Block
+
+```
+function hello() {
+    console.log("Hello, World!");
+}
+```
+
+## Code Block With Language
+
+```python
+def greet(name):
+    """Greet someone by name."""
+    return f"Hello, {name}!"
+
+if __name__ == "__main__":
+    print(greet("World"))
+```
+
+## Code Block With Special Characters
+
+```html
+<div class="container">
+    <h1>Title & Subtitle</h1>
+    <p>Text with <em>emphasis</em></p>
+</div>
+```
+
+## Code After Text
+
+Some explanation text here.
+
+```javascript
+const x = 42;
+const y = "test";
+```
+
+More text after code.
+
+## Inline vs Block
+
+Use `inline code` for short snippets.
+
+For longer code:
+
+```
+multi
+line
+code
+block
+```
+
+## Empty Lines In Code
+
+```
+line one
+
+line three after empty
+
+line five
+```

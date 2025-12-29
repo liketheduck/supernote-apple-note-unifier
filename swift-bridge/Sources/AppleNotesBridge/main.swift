@@ -369,6 +369,14 @@ class NotesAccess {
                         set noteCreated to creation date of aNote as string
                         set noteModified to modification date of aNote as string
 
+                        -- Check if note is password protected (locked)
+                        set isLocked to "false"
+                        try
+                            if password protected of aNote then
+                                set isLocked to "true"
+                            end if
+                        end try
+
                         -- Get folder info (must save container to variable first)
                         set folderId to ""
                         set folderName to ""
@@ -383,7 +391,7 @@ class NotesAccess {
                             end try
                         end if
 
-                        set end of noteList to noteId & "|||" & noteName & "|||" & folderId & "|||" & folderName & "|||" & noteCreated & "|||" & noteModified
+                        set end of noteList to noteId & "|||" & noteName & "|||" & folderId & "|||" & folderName & "|||" & noteCreated & "|||" & noteModified & "|||" & isLocked
                     end if
                 on error
                     -- If we can't check shared status, include the note
@@ -391,6 +399,14 @@ class NotesAccess {
                     set noteName to name of aNote
                     set noteCreated to creation date of aNote as string
                     set noteModified to modification date of aNote as string
+
+                    -- Check if note is password protected (locked)
+                    set isLocked to "false"
+                    try
+                        if password protected of aNote then
+                            set isLocked to "true"
+                        end if
+                    end try
 
                     -- Get folder info (must save container to variable first)
                     set folderId to ""
@@ -406,7 +422,7 @@ class NotesAccess {
                         end try
                     end if
 
-                    set end of noteList to noteId & "|||" & noteName & "|||" & folderId & "|||" & folderName & "|||" & noteCreated & "|||" & noteModified
+                    set end of noteList to noteId & "|||" & noteName & "|||" & folderId & "|||" & folderName & "|||" & noteCreated & "|||" & noteModified & "|||" & isLocked
                 end try
             end repeat
             set AppleScript's text item delimiters to ":::"
@@ -428,6 +444,7 @@ class NotesAccess {
                     let folderName = parts[3]
                     let creationDate = parts[4]
                     let modificationDate = parts[5]
+                    let isLocked = parts.count >= 7 && parts[6] == "true"
 
                     // Build full folder path from hierarchy
                     let fullFolderPath = folderId.isEmpty ? "" : getFullFolderPath(folderId: folderId)
@@ -439,8 +456,20 @@ class NotesAccess {
                         "folderPath": fullFolderPath,
                         "folderName": folderName,  // Keep immediate folder name too
                         "creationDate": creationDate,
-                        "modificationDate": modificationDate
+                        "modificationDate": modificationDate,
+                        "isLocked": isLocked
                     ]
+
+                    // For locked notes, don't try to get content (it will fail)
+                    if isLocked {
+                        note["bodyPlainText"] = ""
+                        note["bodyHTML"] = ""
+                        // Use a stable hash for locked notes based on name and mod date
+                        let hashContent = "\(noteName)|LOCKED|\(modificationDate)"
+                        note["contentHash"] = "sha256:\(hashContent.sha256())"
+                        notes.append(note)
+                        continue
+                    }
 
                     // Get plaintext for each note
                     let plaintextScript = """
@@ -509,7 +538,20 @@ class NotesAccess {
                 set noteName to name of theNote
                 set noteCreated to creation date of theNote as string
                 set noteModified to modification date of theNote as string
-                set notePlaintext to plaintext of theNote
+
+                -- Check if note is password protected (locked)
+                set isLocked to "false"
+                try
+                    if password protected of theNote then
+                        set isLocked to "true"
+                    end if
+                end try
+
+                -- Get plaintext only if not locked
+                set notePlaintext to ""
+                if isLocked is "false" then
+                    set notePlaintext to plaintext of theNote
+                end if
 
                 -- Get folder info (must save container to variable first)
                 set folderId to ""
@@ -525,7 +567,7 @@ class NotesAccess {
                     end try
                 end if
 
-                return noteId & "|||" & noteName & "|||" & folderId & "|||" & folderName & "|||" & noteCreated & "|||" & noteModified & "|||" & notePlaintext
+                return noteId & "|||" & noteName & "|||" & folderId & "|||" & folderName & "|||" & noteCreated & "|||" & noteModified & "|||" & notePlaintext & "|||" & isLocked
             on error
                 return ""
             end try
@@ -543,6 +585,7 @@ class NotesAccess {
             let folderId = parts[2]
             let folderName = parts[3]
             let fullFolderPath = folderId.isEmpty ? "" : getFullFolderPath(folderId: folderId)
+            let isLocked = parts.count >= 8 && parts[7] == "true"
 
             var note: [String: Any] = [
                 "id": parts[0],
@@ -552,8 +595,19 @@ class NotesAccess {
                 "folderName": folderName,
                 "creationDate": parts[4],
                 "modificationDate": parts[5],
-                "bodyPlainText": parts[6]
+                "bodyPlainText": parts[6],
+                "isLocked": isLocked
             ]
+
+            // For locked notes, skip content fetching
+            if isLocked {
+                note["bodyHTML"] = ""
+                let noteName = parts[1]
+                let modificationDate = parts[5]
+                let hashContent = "\(noteName)|LOCKED|\(modificationDate)"
+                note["contentHash"] = "sha256:\(hashContent.sha256())"
+                return note
+            }
 
             if includeHTML {
                 let bodyScript = """

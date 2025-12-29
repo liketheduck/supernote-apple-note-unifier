@@ -1,0 +1,57 @@
+<h1>Code Variations</h1>
+<div><br></div>
+<h2>Inline Code Variations</h2>
+<div>Simple <code>code</code> inline.</div>
+<div>Code with <code>spaces inside</code> here.</div>
+<div>Code with <code>special &lt;chars&gt;</code> encoded.</div>
+<div><br></div>
+<h2>Multiple Inline Code</h2>
+<div>Use <code>foo()</code> or <code>bar()</code> or <code>baz()</code>.</div>
+<div><br></div>
+<h2>Code At Boundaries</h2>
+<div><code>start</code> of line.</div>
+<div>End of line <code>end</code></div>
+<div><code>entire line is code</code></div>
+<div><br></div>
+<h2>Code With Formatting</h2>
+<div><b><code>bold code</code></b></div>
+<div><i><code>italic code</code></i></div>
+<div><br></div>
+<h2>Pre Block Simple</h2>
+<pre>function test() {
+    return true;
+}</pre>
+<div><br></div>
+<h2>Pre Block With Entities</h2>
+<pre>if (x &lt; 10 &amp;&amp; y &gt; 5) {
+    return x &amp; y;
+}</pre>
+<div><br></div>
+<h2>Pre Block With Indentation</h2>
+<pre>
+class Example:
+    def __init__(self):
+        self.value = 0
+
+    def increment(self):
+        self.value += 1
+</pre>
+<div><br></div>
+<h2>Pre Block Empty Lines</h2>
+<pre>Line 1
+
+Line 3
+
+Line 5</pre>
+<div><br></div>
+<h2>Pre After Other Elements</h2>
+<ul>
+<li>List item before code</li>
+</ul>
+<pre>code after list</pre>
+<blockquote>Quote before code</blockquote>
+<pre>code after quote</pre>
+<div><br></div>
+<h2>Adjacent Pre Blocks</h2>
+<pre>First block</pre>
+<pre>Second block</pre>

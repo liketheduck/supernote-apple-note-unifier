@@ -19,6 +19,7 @@ from .supernote_watcher import ChangedFile, ChangeType
 logger = logging.getLogger(__name__)
 
 ORIGINALS_FOLDER_NAME = "Originals (Supernote Sync)"
+LOCKED_NOTE_MARKER = "**Locked in Apple Notes**"
 
 
 @dataclass
@@ -189,6 +190,28 @@ class ReverseSyncEngine:
                 )
 
             new_content = change.path.read_text(encoding='utf-8')
+
+            # Skip reverse sync for locked notes (check database first, then content)
+            state = self.state_db.get_note_state(change.apple_note_id)
+            if state and state.is_locked:
+                logger.debug(f"Skipping reverse sync for locked note (from db): {change.path}")
+                return ReverseSyncResult(
+                    success=True,
+                    apple_note_id=change.apple_note_id,
+                    action='skipped',
+                    error="Note is locked in Apple Notes",
+                )
+
+            # Also check content as fallback (in case database wasn't updated)
+            if LOCKED_NOTE_MARKER in new_content:
+                logger.debug(f"Skipping reverse sync for locked note (from content): {change.path}")
+                return ReverseSyncResult(
+                    success=True,
+                    apple_note_id=change.apple_note_id,
+                    action='skipped',
+                    error="Note is locked in Apple Notes",
+                )
+
             new_hash = self._compute_content_hash(new_content)
 
             # Check for echo (content we wrote during forward sync)

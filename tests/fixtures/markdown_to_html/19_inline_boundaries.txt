@@ -1,0 +1,75 @@
+# Inline at Boundaries
+
+## Start of Paragraph
+
+**Bold at very start** then normal text continues.
+
+*Italic at very start* then normal text continues.
+
+`Code at very start` then normal text continues.
+
+[Link at very start](https://example.com) then normal text continues.
+
+## End of Paragraph
+
+Normal text then ends with **bold at end**
+
+Normal text then ends with *italic at end*
+
+Normal text then ends with `code at end`
+
+Normal text then ends with [link at end](https://example.com)
+
+## Start of List Item
+
+- **Bold start** of item
+- *Italic start* of item
+- `Code start` of item
+- [Link start](https://x.com) of item
+
+## End of List Item
+
+- Item ends with **bold end**
+- Item ends with *italic end*
+- Item ends with `code end`
+- Item ends with [link end](https://x.com)
+
+## In Headers
+
+## **Bold in Header**
+
+## *Italic in Header*
+
+## `Code in Header`
+
+## Start and End Same
+
+**Entire bold paragraph**
+
+*Entire italic paragraph*
+
+`Entire code paragraph`
+
+## Adjacent to Punctuation
+
+(**Bold in parens**)
+
+"*Italic in quotes*"
+
+[`Code in brackets`]
+
+## With Numbers
+
+1**st** place
+
+2*nd* place
+
+3`rd` place
+
+## Multi-line Context
+
+First line with **bold
+continuing** to second line.
+
+Start *italic
+and end* on next line.

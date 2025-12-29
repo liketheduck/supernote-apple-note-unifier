@@ -1,0 +1,44 @@
+# Blockquotes
+
+## Simple Quote
+
+> This is a simple blockquote.
+
+Text after quote.
+
+## Multi-Line Quote
+
+> This is a longer quote
+> that spans multiple lines
+> and should be combined.
+
+## Quote With Formatting
+
+> This quote has **bold** and *italic* text.
+> It also has `code` and a [link](https://example.com).
+
+## Nested Quotes (Conceptual)
+
+> First level quote
+> > Second level nested
+> Back to first
+
+## Quote After List
+
+- List item one
+- List item two
+
+> Quote after a list should work.
+
+## Multiple Quotes
+
+> First quote here.
+
+Some text between.
+
+> Second quote here.
+
+## Quote With Special Chars
+
+> Quote with "double quotes" and 'single quotes'.
+> Also & ampersand and <angle brackets>.

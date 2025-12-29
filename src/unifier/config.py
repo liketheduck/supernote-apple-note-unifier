@@ -11,9 +11,14 @@ from typing import Optional
 # Try to load .env file if python-dotenv is available
 try:
     from dotenv import load_dotenv
-    # Look for .env in project root (parent of src/)
-    env_path = Path(__file__).parent.parent.parent / ".env"
-    if env_path.exists():
+    # Look for .env files in project root (parent of src/)
+    # .env.local takes precedence over .env
+    project_root = Path(__file__).parent.parent.parent
+    env_local_path = project_root / ".env.local"
+    env_path = project_root / ".env"
+    if env_local_path.exists():
+        load_dotenv(env_local_path)
+    elif env_path.exists():
         load_dotenv(env_path)
 except ImportError:
     pass  # dotenv not installed, use environment variables only

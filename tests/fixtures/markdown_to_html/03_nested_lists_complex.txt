@@ -1,0 +1,43 @@
+# Nested Lists Complex
+
+## Unordered Lists
+
+- First level item one
+- First level item two
+  - Second level item A
+  - Second level item B
+    - Third level item i
+    - Third level item ii
+      - Fourth level deep nesting
+  - Back to second level
+- Back to first level
+- Another first level
+
+## Ordered Lists
+
+1. First ordered item
+2. Second ordered item
+   1. Nested ordered A
+   2. Nested ordered B
+      1. Deep nested one
+      2. Deep nested two
+   3. Back to nested level
+3. Third ordered item
+
+## Mixed List Types
+
+- Unordered parent
+  1. Ordered child one
+  2. Ordered child two
+     - Unordered grandchild
+     - Another grandchild
+  3. Ordered child three
+- Another unordered parent
+
+## Lists With Formatting
+
+- **Bold list item**
+- *Italic list item*
+- Item with `code` in it
+- Item with [link](https://example.com)
+- ~~Strikethrough item~~

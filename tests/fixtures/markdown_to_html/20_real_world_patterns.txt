@@ -1,0 +1,90 @@
+# Real World Patterns
+
+## Meeting Notes Style
+
+**Date:** 2024-01-15
+**Attendees:** Alice, Bob, Charlie
+**Topic:** Q1 Planning
+
+### Action Items
+
+- [ ] Alice: Review budget proposal
+- [ ] Bob: Schedule follow-up meeting
+- [x] Charlie: Send meeting notes (done)
+
+### Key Decisions
+
+1. Launch date set for March 1st
+2. Budget approved at $50,000
+3. Team expanded by 2 members
+
+---
+
+## Recipe Format
+
+**Prep Time:** 15 minutes
+**Cook Time:** 30 minutes
+**Servings:** 4
+
+### Ingredients
+
+- 2 cups flour
+- 1 cup sugar
+- 3 eggs
+- 1/2 cup butter
+
+### Instructions
+
+1. Preheat oven to 350°F
+2. Mix dry ingredients
+3. Add wet ingredients
+4. Bake for 30 minutes
+
+> **Tip:** Let cool before serving!
+
+---
+
+## Technical Documentation
+
+### API Endpoint
+
+`POST /api/v1/users`
+
+**Request Body:**
+
+```json
+{
+  "name": "string",
+  "email": "string"
+}
+```
+
+**Response:** `201 Created`
+
+### Error Codes
+
+| Code | Meaning |
+|------|---------|
+| 400 | Bad Request |
+| 401 | Unauthorized |
+| 404 | Not Found |
+
+---
+
+## Personal Journal Entry
+
+*Monday, January 15th*
+
+Today was productive! Finished the **big project** finally. 🎉
+
+Things I'm grateful for:
+- Good health
+- Supportive team
+- Morning coffee ☕
+
+Tomorrow's focus:
+1. Start new feature
+2. Review PRs
+3. Team standup at 10am
+
+> "The only way to do great work is to love what you do." - Steve Jobs

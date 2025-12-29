@@ -1,0 +1,41 @@
+<h1>Formatting Edge Cases</h1>
+<div><br></div>
+<h2>Empty Formatting Tags</h2>
+<div>Before <b></b> after empty bold.</div>
+<div>Before <i></i> after empty italic.</div>
+<div>Before <code></code> after empty code.</div>
+<div><br></div>
+<h2>Whitespace Only Formatting</h2>
+<div>Before <b> </b> after space bold.</div>
+<div>Before <i>  </i> after spaces italic.</div>
+<div><br></div>
+<h2>Overlapping Tags</h2>
+<div><b>Bold <i>and italic</b> just italic</i></div>
+<div><i>Italic <b>and bold</i> just bold</b></div>
+<div><br></div>
+<h2>Self-Closing Tags</h2>
+<div>Line one<br/>Line two<br />Line three</div>
+<div><br></div>
+<h2>Unclosed Tags</h2>
+<div><b>Bold without close</div>
+<div>Normal text after</div>
+<div><br></div>
+<h2>Deeply Nested Same Tag</h2>
+<div><b><b><b>Triple bold</b></b></b></div>
+<div><i><i>Double italic</i></i></div>
+<div><br></div>
+<h2>Formatting Across Lines</h2>
+<div><b>Bold starts here
+continues here</b></div>
+<div><br></div>
+<h2>Single Character Formatting</h2>
+<div><b>a</b><i>b</i><code>c</code></div>
+<div><br></div>
+<h2>Adjacent Same Formatting</h2>
+<div><b>First bold</b><b>Second bold</b></div>
+<div><i>First italic</i><i>Second italic</i></div>
+<div><br></div>
+<h2>Formatting With Punctuation</h2>
+<div><b>Bold!</b> <i>Italic?</i> <code>Code.</code></div>
+<div>(<b>Bold in parens</b>)</div>
+<div>"<i>Italic in quotes</i>"</div>

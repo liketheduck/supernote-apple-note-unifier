@@ -1,0 +1,61 @@
+# Escape Sequences
+
+## Literal Asterisks
+
+Use \*asterisks\* without italics.
+
+The formula is 5 \* 3 = 15.
+
+Multiple: \*\*not bold\*\* stays plain.
+
+## Literal Underscores
+
+File name: my\_file\_name.txt
+
+Variable: some\_variable\_here
+
+Not italic: \_underscores\_ as text.
+
+## Literal Backticks
+
+Show a backtick: \`
+
+Not code: \`plain text\`
+
+## Literal Brackets
+
+Array syntax: \[0\] and \[1\]
+
+Not a link: \[text\](url)
+
+## Literal Hash
+
+\# Not a header
+
+\## Also not a header
+
+C\# programming language
+
+## Mixed Escapes
+
+Formula: x \* y = z\_result
+
+Code reference: \`variable\_name\` in docs
+
+Array: items\[0\] \* items\[1\]
+
+## Backslash Itself
+
+Path: C:\\Users\\Name
+
+Escaped backslash: \\\\
+
+Multiple: \\\\ and \\\\
+
+## Real World Examples
+
+File path: /home/user/my\_project/
+
+Math: 3 \* 4 + 5 \* 6 = 42
+
+Regex: \[a-z\]\+ matches lowercase

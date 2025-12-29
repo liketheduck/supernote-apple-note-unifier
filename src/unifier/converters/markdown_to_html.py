@@ -5,7 +5,6 @@ Converts Markdown format back to Apple Notes HTML for reverse sync.
 """
 
 import re
-from typing import Generator
 
 
 def markdown_to_apple_html(markdown: str) -> str:
@@ -182,7 +181,6 @@ def _convert_ordered_list(lines: list[str]) -> str:
 def _parse_list_items(lines: list[str], ordered: bool) -> list[tuple[int, str]]:
     """Parse list items with their indent levels."""
     items = []
-    pattern = r'^\d+\.\s+' if ordered else r'^-\s+'
 
     for line in lines:
         if not line.strip():

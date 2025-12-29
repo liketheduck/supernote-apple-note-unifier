@@ -1,0 +1,67 @@
+# Nested Blockquotes
+
+## Simple Nested
+
+> Outer quote
+> > Inner quote
+
+## Triple Nested
+
+> Level 1
+> > Level 2
+> > > Level 3
+
+## Mixed Content Nested
+
+> Outer has **bold**
+> > Inner has *italic*
+> > > Deepest has `code`
+
+## Back and Forth
+
+> Start outer
+> > Go inner
+> Back to outer
+> > Inner again
+
+## Quote With List Inside
+
+> Before list
+> - Item 1
+> - Item 2
+> After list
+
+## Nested With Code
+
+> Outer quote
+> > ```
+> > code block
+> > inside nested
+> > ```
+
+## Long Nested Quote
+
+> This is the first level of quoting.
+> > This is the second level which contains more detailed information.
+> > > This is the third and deepest level with the most specific content.
+
+## Quote After Quote
+
+> First quote block.
+
+> Second quote block.
+
+> Third quote block.
+
+## Attribution Style
+
+> To be or not to be
+> > -- Shakespeare
+
+## Complex Nesting
+
+> Main point here.
+> > Supporting evidence.
+> > > Specific example.
+> > More support.
+> Conclusion.

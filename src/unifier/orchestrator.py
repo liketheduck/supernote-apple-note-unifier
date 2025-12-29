@@ -110,6 +110,9 @@ class Orchestrator:
         for note in notes_data.get("notes", []):
             current_note_ids.add(note["id"])
 
+            # Check if note is locked
+            is_locked = note.get("isLocked", False)
+
             # Compute content hash
             content_hash = self._compute_hash(note)
 
@@ -119,26 +122,35 @@ class Orchestrator:
                 stats["skipped"] += 1
                 continue
 
-            # Parse attachments
+            # Parse attachments (skip for locked notes)
             attachments = []
-            for att in note.get("attachments", []):
-                attachments.append(AttachmentInfo(
-                    id=att.get("id", ""),
-                    name=att.get("name", ""),
-                    is_pdf=att.get("isPDF", False),
-                    exported_path=att.get("exportedPath"),
-                    content_identifier=att.get("contentIdentifier")
-                ))
+            if not is_locked:
+                for att in note.get("attachments", []):
+                    attachments.append(AttachmentInfo(
+                        id=att.get("id", ""),
+                        name=att.get("name", ""),
+                        is_pdf=att.get("isPDF", False),
+                        exported_path=att.get("exportedPath"),
+                        content_identifier=att.get("contentIdentifier")
+                    ))
 
-            # Prepare content
+            # Prepare content - use locked placeholder if note is locked
+            if is_locked:
+                plain_text = "**Locked in Apple Notes**"
+                html = "<p><strong>Locked in Apple Notes</strong></p>"
+            else:
+                plain_text = note.get("bodyPlainText", "")
+                html = note.get("bodyHTML")
+
             content = NoteContent(
                 title=note["name"],
-                plain_text=note.get("bodyPlainText", ""),
-                html=note.get("bodyHTML"),
+                plain_text=plain_text,
+                html=html,
                 created_at=note.get("creationDate", ""),
                 modified_at=note.get("modificationDate", ""),
                 source_id=note["id"],
-                attachments=attachments
+                attachments=attachments,
+                is_locked=is_locked
             )
 
             # Track content type stats
@@ -188,6 +200,7 @@ class Orchestrator:
                     result.output_path,
                     generator.generator_type.value,
                     supernote_content_hash=supernote_hash,
+                    is_locked=is_locked,
                 )
 
                 # Register in Personal Cloud sync database

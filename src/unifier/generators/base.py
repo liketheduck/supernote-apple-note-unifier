@@ -46,6 +46,7 @@ class NoteContent:
     modified_at: str
     source_id: str  # Apple Notes ID for tracking
     attachments: list[AttachmentInfo] = field(default_factory=list)
+    is_locked: bool = False  # True if note is password-protected in Apple Notes
 
     def get_content_type(self) -> ContentType:
         """Detect if note is text-only or has rich content."""

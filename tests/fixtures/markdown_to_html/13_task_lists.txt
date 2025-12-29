@@ -1,0 +1,44 @@
+# Task Lists
+
+## Simple Tasks
+
+- [ ] Unchecked task
+- [x] Checked task
+- [ ] Another unchecked
+- [x] Another checked
+
+## Nested Tasks
+
+- [ ] Main task
+  - [ ] Subtask 1
+  - [x] Subtask 2 (done)
+  - [ ] Subtask 3
+- [x] Completed main task
+  - [x] All subtasks done
+  - [x] This one too
+
+## Mixed With Regular Items
+
+- Regular list item
+- [ ] Task item
+- Another regular
+- [x] Completed task
+- Final regular item
+
+## Tasks With Formatting
+
+- [ ] **Bold task**
+- [x] *Italic completed*
+- [ ] Task with `code`
+- [x] Task with [link](https://example.com)
+
+## Long Task Descriptions
+
+- [ ] This is a very long task description that might wrap to multiple lines in the editor
+- [x] Completed: Review the pull request and ensure all tests pass before merging
+
+## Edge Cases
+
+- [ ] Task at start
+- [x] Task in middle
+- [ ] Task at end

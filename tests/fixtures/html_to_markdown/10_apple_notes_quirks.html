@@ -1,0 +1,52 @@
+<h1>Apple Notes Quirks</h1>
+<div><br></div>
+<h2>Style Attributes (Should Be Stripped)</h2>
+<div style="font-family: -apple-system; color: rgb(0, 0, 0);">Text with inline styles that should be ignored.</div>
+<div class="Apple-note-body"><b style="font-weight: bold;">Bold with style attribute</b></div>
+<div><br></div>
+<h2>Empty Divs</h2>
+<div></div>
+<div>Content after empty div.</div>
+<div><br></div>
+<div><br></div>
+<div>Content after multiple empty lines.</div>
+<div><br></div>
+<h2>Br Tags Variations</h2>
+<div>Line one<br>Line two<br/>Line three<br />Line four</div>
+<div><br></div>
+<h2>Nested Formatting</h2>
+<div><b><i>Bold and italic together</i></b></div>
+<div><i><b>Italic and bold together</b></i></div>
+<div><b>Bold with <i>nested italic</i> and more bold</b></div>
+<div><br></div>
+<h2>Lists Without Proper Closure</h2>
+<ul>
+<li>Item one
+<li>Item two
+<li>Item three
+</ul>
+<div><br></div>
+<h2>Inline Elements In Blocks</h2>
+<div>Regular text <b>bold text</b> more regular <i>italic text</i> end.</div>
+<div><br></div>
+<h2>Whitespace Issues</h2>
+<div>   Text with leading spaces   </div>
+<div>	Tab	indented	text</div>
+<div>
+Multiple
+newlines
+inside
+div
+</div>
+<div><br></div>
+<h2>Entity Edge Cases</h2>
+<div>Numeric: &#60; &#62; &#38; &#39; &#34;</div>
+<div>Named: &lt; &gt; &amp; &apos; &quot;</div>
+<div>Unicode: &#x2026; &#x2014; &#x2019;</div>
+<div><br></div>
+<h2>Adjacent Inline Elements</h2>
+<div><b>bold</b><i>italic</i><code>code</code></div>
+<div><b>bold </b><i> italic </i><code> code</code></div>
+<div><br></div>
+<h2>Final Test</h2>
+<div>End of test document with <a href="https://final.com">final link</a>.</div>

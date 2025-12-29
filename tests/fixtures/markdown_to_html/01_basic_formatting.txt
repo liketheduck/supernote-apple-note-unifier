@@ -1,0 +1,17 @@
+# Basic Formatting Test
+
+This tests **bold text**, *italic text*, and ***bold italic combined***.
+
+Also testing __underline bold__ and _underline italic_ styles.
+
+Here's some `inline code` in a sentence.
+
+And ~~strikethrough text~~ for deleted content.
+
+Multiple **bold words in a row** and *italic words in a row* work fine.
+
+Edge case: *star at start* and *star at end*
+
+Edge case: text*with*stars*inside should not italicize.
+
+Edge case: **nested *formatting* works** too.

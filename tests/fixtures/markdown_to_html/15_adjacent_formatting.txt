@@ -1,0 +1,69 @@
+# Adjacent Formatting
+
+## Side by Side
+
+**bold***italic* no space between.
+
+*italic***bold** reversed order.
+
+`code`**bold** code then bold.
+
+**bold**`code` bold then code.
+
+## With Punctuation
+
+**bold**, then comma.
+
+*italic*. then period.
+
+`code`! exclamation.
+
+**bold**: colon follows.
+
+## Nested and Adjacent
+
+***bold-italic*****bold** complex.
+
+**outer *inner* outer** nested.
+
+*italic **nested bold** italic* reversed.
+
+## Word Boundaries
+
+un**bold**ed middle bold.
+
+pre*italic*fix middle italic.
+
+before`code`after inline code.
+
+## Multiple Adjacent
+
+**a****b****c** three bold.
+
+*x**y**z* italic bold italic.
+
+`1``2``3` three code spans.
+
+## Start of Line
+
+**Bold** at start.
+
+*Italic* at start.
+
+`Code` at start.
+
+## End of Line
+
+At the end is **bold**
+
+At the end is *italic*
+
+At the end is `code`
+
+## Empty Between
+
+Text**bold**text no spaces.
+
+A*B*C letters with italic.
+
+X`Y`Z letters with code.

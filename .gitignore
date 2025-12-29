@@ -52,6 +52,7 @@ logs/
 .coverage
 .pytest_cache/
 htmlcov/
+tests/visual_samples/
 
 # Build artifacts
 bin/notes-bridge

@@ -119,6 +119,7 @@ Supernote/Note/Apple/
 | Modified `.txt` on Supernote | Updates Apple Note (original backed up) |
 | Deleted `.txt` on Supernote | Deletes Apple Note (original backed up) |
 | Both sides changed | **Apple wins** (Supernote change discarded) |
+| Locked Apple Note | Creates `.txt` with "**Locked in Apple Notes**" (no reverse sync) |
 
 ### Safety Features
 
@@ -168,12 +169,14 @@ Renders text as bitmap strokes on the main layer. Appears as handwritten ink but
 - ✅ Rich notes (images/PDFs) sync forward as `.note` files
 - ✅ Modifications to `.txt` on Supernote sync back to Apple Notes
 - ✅ New `.txt` files created on Supernote create new Apple Notes
+- ✅ Locked notes are detected and marked (reverse sync disabled)
 
 **What doesn't work:**
 - ❌ `.note` files cannot sync back (PDF layer is read-only)
 - ❌ Images/attachments in notes are one-way only (Apple → Supernote)
 - ❌ Handwritten annotations on Supernote don't sync back
 - ❌ Apple Notes formatting (fonts, colors) is simplified in `.txt` output
+- ❌ Locked Apple Notes content cannot be read (shows placeholder message)
 
 **Personal Cloud Sync:**
 Files are written directly to the mounted Supernote filesystem. If you see database connection errors during sync, the files are still created - you may need to manually refresh/sync on your Supernote device to see them. Full Personal Cloud database integration requires a separate MariaDB setup.
